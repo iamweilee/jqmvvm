@@ -1,6 +1,6 @@
  /**
-  * 不适用于单页应用
-  *
+  * a micro mvvm lib based on jquery
+  * @author DavidLee
   */
  (function(name, context, definition) {
   if (typeof module !== 'undefined' && module.exports) {
