@@ -98,7 +98,6 @@
       week: 'input'
     };
 
-    var watcher = new Observer();
 
     var specialHandlerMap = {
       html: function(element, newValue, oldValue) {
@@ -151,6 +150,7 @@
     jqmvvm.fn = function() {
       this.rootModel = {};
       this.relationMap = {};
+      this.watcher = new Observer();
     };
     
     var proto = jqmvvm.fn.prototype;
@@ -180,7 +180,7 @@
               element.id = 'jmnode_' + uuid(8, 16);
             }
 
-            watcher.watch(modelExpression, (function(rawAttrName, element) {
+            me.watcher.watch(modelExpression, (function(rawAttrName, element) {
               return function(d) {
                 if (specialHandlerMap[rawAttrName]) {
                   specialHandlerMap[rawAttrName](element || document.getElementById(element.id), d);
@@ -256,7 +256,7 @@
           }
           modelValue = modelValue[field];
         }
-        watcher.notify(modelExpression, newValue);
+        this.watcher.notify(modelExpression, newValue);
         modelValue[modelFields[modelFields.length - 1]] = newValue;
       }
       return this;
@@ -264,6 +264,18 @@
 
     proto.set = proto.setModelValue;
     proto.get = proto.getModelValue;
+
+    proto.clear = function() {
+      this.rootModel = {};
+      this.relationMap = {};
+      this.watcher = new Observer();
+    };
+
+    proto.destroy = function() {
+      this.rootModel = null;
+      this.relationMap = null;
+      this.watcher = null;
+    };
 
     // 使jqmvvm拥有jqmvvm.fn的行为
     var instance = jqmvvm();
