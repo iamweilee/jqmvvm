@@ -160,6 +160,9 @@
      * @param {HtmlElement} root 被扫描的根元素
      */
     proto.scan = function(root) {
+      if (typeof root === 'string') {
+        root = document.getElementById(root);
+      }
       var me = this;
       walkDomTree(root, function(element) {
         var attrs = element.attributes;
