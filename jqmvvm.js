@@ -157,7 +157,7 @@
 
     /**
      * 扫描root元素下所有子元素，过滤出有双向绑定的元素
-     * @param {HtmlElement} root 被扫描的根元素
+     * @param {HtmlElement|string} root 被扫描的根元素
      */
     proto.scan = function(root) {
       if (typeof root === 'string') {
@@ -219,6 +219,15 @@
         }
       });
       return this;
+    };
+
+    /**
+     * 重新扫描root元素下所有子元素，过滤出有双向绑定的元素
+     * @param {HtmlElement|string} root 被扫描的根元素
+     */
+    proto.rescan = function(root) {
+      this.clear();
+      this.scan(root);
     };
 
 
